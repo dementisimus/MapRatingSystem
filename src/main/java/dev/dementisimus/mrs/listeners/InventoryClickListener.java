@@ -41,12 +41,12 @@ public class InventoryClickListener implements Listener {
     public void on(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         String uuid = player.getUniqueId().toString();
-        DataManagement dataManagement = mapRatingSystem.getCoreAPI().getDataManagement();
+        DataManagement dataManagement = this.mapRatingSystem.getCoreAPI().getDataManagement();
 
         if(event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null) {
             String title = event.getView().getTitle();
             String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
-            if(new Translation(Translations.MAPRATING_INVENTORY_TITLE.id).matches(title, "$map$", mapRating.getMapName())) {
+            if(new Translation(Translations.MAPRATING_INVENTORY_TITLE.id).matches(title, "$map$", this.mapRating.getMapName())) {
                 event.setCancelled(true);
                 RatingType currentRatingType = null;
                 for(RatingType ratingType : this.mapRating.getRatingTypes()) {
@@ -55,11 +55,11 @@ public class InventoryClickListener implements Listener {
                     }
                 }
                 if(currentRatingType != null) {
-                    dataManagement.setRequirements(TablesOrCollections.MAPRATINGS.value, Key.MAP.value, mapRating.getMapName());
+                    dataManagement.setRequirements(TablesOrCollections.MAPRATINGS.value, Key.MAP.value, this.mapRating.getMapName());
                     RatingType finalCurrentRatingType = currentRatingType;
                     dataManagement.get(new String[]{Key.PLAYER_VOTES.value}, result -> {
                         if(result == null || result.isEmpty() || result.get(Key.PLAYER_VOTES.value) == null) {
-                            setVote(dataManagement, result, null, player, finalCurrentRatingType, new ArrayList<>(), true, false);
+                            this.setVote(dataManagement, result, null, player, finalCurrentRatingType, new ArrayList<>(), true, false);
                         }else {
                             if(result.get(Key.PLAYER_VOTES.value) != null) {
                                 Document ratingTypes = this.mapRating.getRatingData(result);
@@ -88,7 +88,7 @@ public class InventoryClickListener implements Listener {
                                     ratingTypes.put(rT, vo);
                                 }
 
-                                setVote(dataManagement, result, ratingTypes, player, finalCurrentRatingType, votes, newVote, changedVote);
+                                this.setVote(dataManagement, result, ratingTypes, player, finalCurrentRatingType, votes, newVote, changedVote);
                             }
                         }
                     });
@@ -98,18 +98,11 @@ public class InventoryClickListener implements Listener {
         }
     }
 
-    private void setVote(DataManagement dataManagement,
-                         Document result,
-                         Document ratingTypes,
-                         Player player,
-                         RatingType ratingType,
-                         ArrayList<String> playerVotes,
-                         boolean newVote,
-                         boolean changedVote) {
+    private void setVote(DataManagement dataManagement, Document result, Document ratingTypes, Player player, RatingType ratingType, ArrayList<String> playerVotes, boolean newVote, boolean changedVote) {
         if(newVote) changedVote = false;
 
         Document iData = new Document();
-        iData.put(Key.MAP.value, mapRating.getMapName());
+        iData.put(Key.MAP.value, this.mapRating.getMapName());
         Document ratingData = new Document();
 
         if(newVote || changedVote) {
@@ -132,15 +125,15 @@ public class InventoryClickListener implements Listener {
         iData.put(Key.PLAYER_VOTES.value, ratingData);
         boolean finalChangedVote = changedVote;
         if(result == null || result.isEmpty() || result.get(Key.PLAYER_VOTES.value) == null) {
-            dataManagement.write(iData, re -> callEvent(re, player, ratingType, finalChangedVote, newVote));
+            dataManagement.write(iData, re -> this.callEvent(re, player, ratingType, finalChangedVote, newVote));
         }else {
-            dataManagement.update(iData, re -> callEvent(re, player, ratingType, finalChangedVote, newVote));
+            dataManagement.update(iData, re -> this.callEvent(re, player, ratingType, finalChangedVote, newVote));
         }
     }
 
     private void callEvent(boolean re, Player player, RatingType ratingType, boolean changedVote, boolean newVote) {
         if(re) {
-            RateMapEvent rateMapEvent = new RateMapEvent(player, mapRating.getMapName(), ratingType, changedVote, newVote);
+            RateMapEvent rateMapEvent = new RateMapEvent(player, this.mapRating.getMapName(), ratingType, changedVote, newVote);
             Bukkit.getPluginManager().callEvent(rateMapEvent);
         }
     }

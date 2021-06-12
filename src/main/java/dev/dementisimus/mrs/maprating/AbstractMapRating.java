@@ -34,7 +34,7 @@ abstract public class AbstractMapRating {
         this.mapName = mapName;
         this.ratingTypes = ratingTypes;
         this.slots = slots;
-        ratingTypeSlots = new HashMap<>();
+        this.ratingTypeSlots = new HashMap<>();
         this.rateMapSlot = rateMapSlot;
         this.rateMapMaterial = rateMapMaterial;
         boolean ex = (slots.length == ratingTypes.length);
@@ -44,18 +44,18 @@ abstract public class AbstractMapRating {
             if(ex) {
                 slot = slots[i];
             }
-            ratingTypeSlots.put(ratingTypes[i], slot);
+            this.ratingTypeSlots.put(ratingTypes[i], slot);
         }
     }
 
     public String getMapName() {
-        return mapName;
+        return this.mapName;
     }
 
     public int getRatingTypeSlot(RatingType ratingType) {
         int slot = -1;
-        if(!getRatingTypeSlot().isEmpty() && getRatingTypeSlot().get(ratingType) != null) {
-            slot = getRatingTypeSlot().get(ratingType);
+        if(!this.getRatingTypeSlot().isEmpty() && this.getRatingTypeSlot().get(ratingType) != null) {
+            slot = this.getRatingTypeSlot().get(ratingType);
         }
         return slot;
     }
@@ -81,13 +81,11 @@ abstract public class AbstractMapRating {
 
     public String getRatingDisplayTagByRatingEnum(RatingType ratingType) {
         if(ratingType != null) {
-            if(ratingType.equals(RatingType.TERRIBLE)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE.id).get(this.locale,
-                                                                                                                                          false);
+            if(ratingType.equals(RatingType.TERRIBLE)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE.id).get(this.locale, false);
             if(ratingType.equals(RatingType.BAD)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD.id).get(this.locale, false);
             if(ratingType.equals(RatingType.OKAY)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY.id).get(this.locale, false);
             if(ratingType.equals(RatingType.GOOD)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD.id).get(this.locale, false);
-            if(ratingType.equals(RatingType.AMAZING)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING.id).get(this.locale,
-                                                                                                                                        false);
+            if(ratingType.equals(RatingType.AMAZING)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING.id).get(this.locale, false);
         }
         return null;
     }
@@ -104,15 +102,15 @@ abstract public class AbstractMapRating {
     }
 
     public RatingType[] getRatingTypes() {
-        return ratingTypes;
+        return this.ratingTypes;
     }
 
     public int getRateMapSlot() {
-        return rateMapSlot;
+        return this.rateMapSlot;
     }
 
     public Material getRateMapMaterial() {
-        return rateMapMaterial;
+        return this.rateMapMaterial;
     }
 
 }

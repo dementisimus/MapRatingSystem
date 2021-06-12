@@ -28,15 +28,13 @@ public class PlayerLanguageListener implements Listener {
     public PlayerLanguageListener(MapRatingSystem mapRatingSystem) {
         this.mapRatingSystem = mapRatingSystem;
         this.mapRating = mapRatingSystem.getMapRating();
-        this.slot = mapRating.getRateMapSlot();
-        this.rateMapMaterial = mapRating.getRateMapMaterial();
+        this.slot = this.mapRating.getRateMapSlot();
+        this.rateMapMaterial = this.mapRating.getRateMapMaterial();
     }
 
     @EventHandler
     public void on(BukkitPlayerLanguageEvent event) {
         Player player = event.getPlayer();
-        player.getInventory().setItem(slot,
-                                      new ItemCreator(rateMapMaterial).setDisplayName(new BukkitTranslation(Translations.MAPRATING_ITEM_RATEMAP.id).get(
-                                              player)).apply());
+        player.getInventory().setItem(this.slot, new ItemCreator(this.rateMapMaterial).setDisplayName(new BukkitTranslation(Translations.MAPRATING_ITEM_RATEMAP.id).get(player)).apply());
     }
 }

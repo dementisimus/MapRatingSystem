@@ -25,11 +25,7 @@ public class MapRating extends AbstractMapRating {
      * @param rateMapMaterial A Material which will be used for the rate-map-item
      */
     @UserRequirement
-    public MapRating(@NotNull String mapName,
-                     @NotNull RatingType[] ratingTypes,
-                     @NotNull Integer[] slots,
-                     int rateMapSlot,
-                     @NotNull Material rateMapMaterial) {
+    public MapRating(@NotNull String mapName, @NotNull RatingType[] ratingTypes, @NotNull Integer[] slots, int rateMapSlot, @NotNull Material rateMapMaterial) {
         super(mapName, ratingTypes, slots, rateMapSlot, rateMapMaterial);
         MapRatingInitializationQueue.setMapRating(this);
     }

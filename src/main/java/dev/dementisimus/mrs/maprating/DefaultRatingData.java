@@ -16,60 +16,35 @@ import org.bukkit.entity.Player;
 public class DefaultRatingData {
 
     public static String getDisplayName(RatingType ratingType, Player player) {
-        Translations translations = null;
-        switch(ratingType) {
-            case TERRIBLE:
-                translations = Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE;
-                break;
-            case BAD:
-                translations = Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD;
-                break;
-            case OKAY:
-                translations = Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY;
-                break;
-            case GOOD:
-                translations = Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD;
-                break;
-            case AMAZING:
-                translations = Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING;
-                break;
-        }
-        if(translations == null) return null;
+        Translations translations = switch(ratingType) {
+            case TERRIBLE -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE;
+            case BAD -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD;
+            case OKAY -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY;
+            case GOOD -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD;
+            case AMAZING -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING;
+        };
         return new BukkitTranslation(translations.id).get(player);
     }
 
     public static Material getMaterial(RatingType ratingType) {
-        switch(ratingType) {
-            case TERRIBLE:
-                return Material.RED_TERRACOTTA;
-            case BAD:
-                return Material.ORANGE_TERRACOTTA;
-            case OKAY:
-                return Material.YELLOW_TERRACOTTA;
-            case GOOD:
-                return Material.GREEN_TERRACOTTA;
-            case AMAZING:
-                return Material.LIME_TERRACOTTA;
-            default:
-                return null;
-        }
+        return switch(ratingType) {
+            case TERRIBLE -> Material.RED_TERRACOTTA;
+            case BAD -> Material.ORANGE_TERRACOTTA;
+            case OKAY -> Material.YELLOW_TERRACOTTA;
+            case GOOD -> Material.GREEN_TERRACOTTA;
+            case AMAZING -> Material.LIME_TERRACOTTA;
+        };
     }
 
     public static RatingType matchAndReturn(Translations translations) {
-        switch(translations) {
-            case MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE:
-                return RatingType.TERRIBLE;
-            case MAPRATING_INVENTORY_ITEM_TYPE_BAD:
-                return RatingType.BAD;
-            case MAPRATING_INVENTORY_ITEM_TYPE_OKAY:
-                return RatingType.OKAY;
-            case MAPRATING_INVENTORY_ITEM_TYPE_GOOD:
-                return RatingType.GOOD;
-            case MAPRATING_INVENTORY_ITEM_TYPE_AMAZING:
-                return RatingType.AMAZING;
-            default:
-                return null;
-        }
+        return switch(translations) {
+            case MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE -> RatingType.TERRIBLE;
+            case MAPRATING_INVENTORY_ITEM_TYPE_BAD -> RatingType.BAD;
+            case MAPRATING_INVENTORY_ITEM_TYPE_OKAY -> RatingType.OKAY;
+            case MAPRATING_INVENTORY_ITEM_TYPE_GOOD -> RatingType.GOOD;
+            case MAPRATING_INVENTORY_ITEM_TYPE_AMAZING -> RatingType.AMAZING;
+            default -> null;
+        };
     }
 
 }

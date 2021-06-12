@@ -56,41 +56,27 @@ public class PlayerInteractListener implements Listener {
                 if(title != null) {
                     if(new Translation(Translations.MAPRATING_ITEM_RATEMAP.id).matches(title)) {
                         event.setCancelled(true);
-                        new InventoryCreator(9,
-                                             new BukkitTranslation(Translations.MAPRATING_INVENTORY_TITLE.id).get(player,
-                                                                                                                  "$map$",
-                                                                                                                  mapRating.getMapName()),
-                                             inventoryCreator -> {
-                                                 dataManagement.setRequirements(TablesOrCollections.MAPRATINGS.value,
-                                                                                Key.MAP.value,
-                                                                                this.mapRating.getMapName());
-                                                 dataManagement.get(new String[]{Key.PLAYER_VOTES.value}, result -> {
-                                                     Document votesByMapRatings = this.mapRating.getRatingData(result);
-                                                     int avaSlot = 0;
-                                                     for(RatingType ratingType : mapRating.getRatingTypes()) {
-                                                         Enchantment ench = null;
-                                                         if(votesByMapRatings != null && !votesByMapRatings.isEmpty()) {
-                                                             if(votesByMapRatings.get(ratingType.toString()) != null) {
-                                                                 ArrayList<String> votes = votesByMapRatings.get(ratingType.toString(),
-                                                                                                                 ArrayList.class);
-                                                                 if(votes.contains(uuid)) ench = Enchantment.DAMAGE_ALL;
-                                                             }
-                                                         }
-                                                         int sl = mapRating.getRatingTypeSlot(ratingType);
-                                                         int slot = ((sl == -1) ? avaSlot : sl);
-                                                         inventoryCreator.setItem(slot,
-                                                                                  new ItemCreator(Objects.requireNonNull(DefaultRatingData.getMaterial(
-                                                                                          ratingType))).setDisplayName(DefaultRatingData.getDisplayName(
-                                                                                          ratingType,
-                                                                                          player))
-                                                                                                       .addEnchantment(ench, 1)
-                                                                                                       .addFlag(ItemFlag.HIDE_ENCHANTS)
-                                                                                                       .apply());
-                                                         avaSlot++;
-                                                     }
-                                                 });
-                                                 player.openInventory(inventoryCreator.apply());
-                                             });
+                        new InventoryCreator(9, new BukkitTranslation(Translations.MAPRATING_INVENTORY_TITLE.id).get(player, "$map$", this.mapRating.getMapName()), inventoryCreator -> {
+                            dataManagement.setRequirements(TablesOrCollections.MAPRATINGS.value, Key.MAP.value, this.mapRating.getMapName());
+                            dataManagement.get(new String[]{Key.PLAYER_VOTES.value}, result -> {
+                                Document votesByMapRatings = this.mapRating.getRatingData(result);
+                                int avaSlot = 0;
+                                for(RatingType ratingType : this.mapRating.getRatingTypes()) {
+                                    Enchantment ench = null;
+                                    if(votesByMapRatings != null && !votesByMapRatings.isEmpty()) {
+                                        if(votesByMapRatings.get(ratingType.toString()) != null) {
+                                            ArrayList<String> votes = votesByMapRatings.get(ratingType.toString(), ArrayList.class);
+                                            if(votes.contains(uuid)) ench = Enchantment.DAMAGE_ALL;
+                                        }
+                                    }
+                                    int sl = this.mapRating.getRatingTypeSlot(ratingType);
+                                    int slot = ((sl == -1) ? avaSlot : sl);
+                                    inventoryCreator.setItem(slot, new ItemCreator(Objects.requireNonNull(DefaultRatingData.getMaterial(ratingType))).setDisplayName(DefaultRatingData.getDisplayName(ratingType, player)).addEnchantment(ench, 1).addFlag(ItemFlag.HIDE_ENCHANTS).apply());
+                                    avaSlot++;
+                                }
+                            });
+                            player.openInventory(inventoryCreator.apply());
+                        });
                     }
                 }
             }

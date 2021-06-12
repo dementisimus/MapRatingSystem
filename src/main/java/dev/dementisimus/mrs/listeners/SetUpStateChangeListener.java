@@ -37,10 +37,7 @@ public class SetUpStateChangeListener implements Listener {
         SetUpData setUpData = this.coreAPI.getSetUpData();
         SetUpHelper setUpHelper = new SetUpHelper(currentState, event.getIssuedCommand(), setUpState, setUpData);
         if(currentState.equalsIgnoreCase(AdditionalSetUpState.USE_STANDALONE_VERSION.name())) {
-            setUpHelper.evalYesOrNo(Translations.CONSOLE_USE_STANDALONE_VERSION.id,
-                                    AdditionalSetUpState.USE_DEFAULT_WORLD_AS_WORLD_NAME_FOR_RATING,
-                                    true,
-                                    false);
+            setUpHelper.evalYesOrNo(Translations.CONSOLE_USE_STANDALONE_VERSION.id, AdditionalSetUpState.USE_DEFAULT_WORLD_AS_WORLD_NAME_FOR_RATING, true, false);
             Boolean yesOrNo = SetUpHelper.getYesNoFromCommand(event.getIssuedCommand());
             if(yesOrNo != null) {
                 if(yesOrNo) {
@@ -50,10 +47,7 @@ public class SetUpStateChangeListener implements Listener {
                 }
             }
         }else if(currentState.equalsIgnoreCase(AdditionalSetUpState.USE_DEFAULT_WORLD_AS_WORLD_NAME_FOR_RATING.name())) {
-            setUpHelper.evalYesOrNo(Translations.CONSOLE_USE_DEFAULT_WORLD_AS_WORLD_NAME_FOR_RATING.id,
-                                    AdditionalSetUpState.WORLD_NAME_FOR_RATING,
-                                    true,
-                                    false);
+            setUpHelper.evalYesOrNo(Translations.CONSOLE_USE_DEFAULT_WORLD_AS_WORLD_NAME_FOR_RATING.id, AdditionalSetUpState.WORLD_NAME_FOR_RATING, true, false);
             Boolean yesOrNo = SetUpHelper.getYesNoFromCommand(event.getIssuedCommand());
             if(yesOrNo != null) {
                 if(yesOrNo) {

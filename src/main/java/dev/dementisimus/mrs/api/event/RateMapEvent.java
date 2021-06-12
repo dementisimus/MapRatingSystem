@@ -52,34 +52,34 @@ public class RateMapEvent extends Event {
      * @return the player which voted for a specific map
      */
     public @NotNull Player getPlayer() {
-        return player;
+        return this.player;
     }
 
     /**
      * @return the map a player voted for
      */
     public @NotNull String getMap() {
-        return map;
+        return this.map;
     }
 
     /**
      * @return the {@link RatingType} a player submitted for a map
      */
     public @NotNull RatingType getRatingType() {
-        return ratingType;
+        return this.ratingType;
     }
 
     /**
      * @return true when a player changed his vote on a map
      */
     public boolean changedVote() {
-        return changedVote;
+        return this.changedVote;
     }
 
     /**
      * @return true when a player submitted a new vote on a map
      */
     public boolean newVote() {
-        return newVote;
+        return this.newVote;
     }
 }
