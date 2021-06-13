@@ -50,7 +50,8 @@ public class MapRatingSystem extends JavaPlugin {
     private void init() {
         this.bukkitCoreAPI = new BukkitCoreAPI(this);
         this.coreAPI = this.bukkitCoreAPI.getCoreAPI();
-        this.coreAPI.prepareInit(new String[]{DefaultSetUpState.LANGUAGE.name(), AdditionalSetUpState.USE_STANDALONE_VERSION.name(), DefaultSetUpState.STORAGE_TYPE.name(), DefaultSetUpState.MONGODB_CONNECTION_STRING.name(), DefaultSetUpState.MONGODB_DATABASE.name(), DefaultSetUpState.MARIADB_HOST.name(), DefaultSetUpState.MARIADB_PORT.name(), DefaultSetUpState.MARIADB_USER.name(), DefaultSetUpState.MARIADB_PASSWORD.name()}, new ResourceBundle[]{getBundle(this.coreAPI.getBaseName(), ENGLISH), getBundle(this.coreAPI.getBaseName(), GERMAN)}, capi -> capi.enableDatabaseUsage(new String[]{MAPRATINGS.value}, new String[]{RATINGROW.value}).init(initialized -> {
+        this.coreAPI.prepareInit(new String[]{DefaultSetUpState.LANGUAGE.name(), AdditionalSetUpState.USE_STANDALONE_VERSION.name(), DefaultSetUpState.STORAGE_TYPE.name(), DefaultSetUpState.MONGODB_CONNECTION_STRING.name(), DefaultSetUpState.MONGODB_DATABASE.name(), DefaultSetUpState.MARIADB_HOST.name(), DefaultSetUpState.MARIADB_PORT.name(), DefaultSetUpState.MARIADB_USER.name(), DefaultSetUpState.MARIADB_PASSWORD.name()}, new ResourceBundle[]{getBundle(this.coreAPI.getBaseName(), ENGLISH), getBundle(this.coreAPI.getBaseName(), GERMAN)}, capi -> capi.enableDatabaseUsage(new String[]{MAPRATINGS.value}, new String[]{RATINGROW.value}));
+        this.coreAPI.init(initialized -> {
             this.createMapRatingAPIObject();
             MapRatingInitializationQueue.executeCallbackInQueue(mapRating -> {
                 if(mapRating != null) {
@@ -61,7 +62,7 @@ public class MapRatingSystem extends JavaPlugin {
                     this.bukkitCoreAPI.registerCommandsAndListeners();
                 }
             });
-        }));
+        });
     }
 
     private void createMapRatingAPIObject() {
