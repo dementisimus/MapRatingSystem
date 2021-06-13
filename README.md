@@ -80,7 +80,7 @@ new MapRating("Amu", new RatingType[]{RatingType.TERRIBLE, RatingType.BAD, Ratin
 - the plugin **may** be used in public/private plugins; credits would be nice!
 
 # !!! read this carefully before downloading !!!
-> **- in order to use this plugin properly, you need to use Java >11 & [Paper by PaperMC](https://papermc.io/downloads "Paper by PaperMC") >1.16! (Paper is an extension/fork of Spigot by SpigotMC, which implements many useful features!)**
+> **- in order to use this plugin properly, you need to use Java >16 & [Paper by PaperMC](https://papermc.io/downloads "Paper by PaperMC") >1.17! (Paper is an extension/fork of Spigot by SpigotMC, which implements many useful features!)**
 
 ## installation
 - **[If your server is currently running, make sure you stop him, do NOT reload your server!]**
