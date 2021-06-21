@@ -4,7 +4,7 @@ author: dementisimus
 version: 1.2.0
 website: dementisimus.dev
 softdepend: [ CoreAPI, ProtocolLib ]
-api-version: 1.16
+api-version: 1.17
 
 commands:
   maprating:
