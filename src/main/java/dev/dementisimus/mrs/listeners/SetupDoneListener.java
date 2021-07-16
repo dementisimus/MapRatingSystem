@@ -1,4 +1,4 @@
-package dev.dementisimus.mrs.listener;
+package dev.dementisimus.mrs.listeners;
 
 import dev.dementisimus.capi.core.events.bukkit.BukkitSetUpDoneEvent;
 import dev.dementisimus.mrs.MapRatingSystem;

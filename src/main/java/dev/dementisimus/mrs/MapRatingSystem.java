@@ -10,7 +10,7 @@ import dev.dementisimus.capi.core.translations.Translation;
 import dev.dementisimus.mrs.api.MapRating;
 import dev.dementisimus.mrs.api.RatingType;
 import dev.dementisimus.mrs.commands.COMMAND_maprating;
-import dev.dementisimus.mrs.listener.SetupDoneListener;
+import dev.dementisimus.mrs.listeners.SetupDoneListener;
 import dev.dementisimus.mrs.listeners.InventoryClickListener;
 import dev.dementisimus.mrs.listeners.PlayerInteractListener;
 import dev.dementisimus.mrs.listeners.PlayerLanguageListener;
