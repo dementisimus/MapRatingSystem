@@ -3,6 +3,7 @@ package dev.dementisimus.mrs;
 import dev.dementisimus.capi.core.config.Config;
 import dev.dementisimus.capi.core.core.BukkitCoreAPI;
 import dev.dementisimus.capi.core.core.CoreAPI;
+import dev.dementisimus.capi.core.helpers.bukkit.BukkitHelper;
 import dev.dementisimus.capi.core.setup.DefaultSetUpState;
 import dev.dementisimus.capi.core.translations.CoreAPITranslations;
 import dev.dementisimus.capi.core.translations.Translation;
@@ -50,13 +51,14 @@ public class MapRatingSystem extends JavaPlugin {
     private void init() {
         this.bukkitCoreAPI = new BukkitCoreAPI(this);
         this.coreAPI = this.bukkitCoreAPI.getCoreAPI();
+        BukkitHelper.registerEvents(this, new Listener[]{new SetUpStateChangeListener(this), new SetUpStatePrintInstructionsListener(this)});
         this.coreAPI.prepareInit(new String[]{DefaultSetUpState.LANGUAGE.name(), AdditionalSetUpState.USE_STANDALONE_VERSION.name(), DefaultSetUpState.STORAGE_TYPE.name(), DefaultSetUpState.MONGODB_CONNECTION_STRING.name(), DefaultSetUpState.MONGODB_DATABASE.name(), DefaultSetUpState.MARIADB_HOST.name(), DefaultSetUpState.MARIADB_PORT.name(), DefaultSetUpState.MARIADB_USER.name(), DefaultSetUpState.MARIADB_PASSWORD.name()}, new ResourceBundle[]{getBundle(this.coreAPI.getBaseName(), ENGLISH), getBundle(this.coreAPI.getBaseName(), GERMAN)}, capi -> capi.enableDatabaseUsage(new String[]{MAPRATINGS.value}, new String[]{RATINGROW.value}));
         this.coreAPI.init(initialized -> {
             this.createMapRatingAPIObject();
             MapRatingInitializationQueue.executeCallbackInQueue(mapRating -> {
                 if(mapRating != null) {
                     this.mapRating = mapRating;
-                    this.bukkitCoreAPI.addListenersToRegisterOnSetUpDone(new Listener[]{new InventoryClickListener(this), new PlayerLanguageListener(this), new PlayerInteractListener(this), new SetUpStateChangeListener(this), new SetUpStatePrintInstructionsListener(this)});
+                    this.bukkitCoreAPI.addListenersToRegisterOnSetUpDone(new Listener[]{new InventoryClickListener(this), new PlayerLanguageListener(this), new PlayerInteractListener(this)});
                     this.bukkitCoreAPI.addCommandToRegisterOnSetUpDone("maprating", new COMMAND_maprating(this));
                     this.bukkitCoreAPI.addCommandToRegisterOnSetUpDone("mr", new COMMAND_maprating(this));
                     this.bukkitCoreAPI.registerCommandsAndListeners();

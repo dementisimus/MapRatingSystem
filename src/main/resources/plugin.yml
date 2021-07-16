@@ -3,7 +3,7 @@ main: dev.dementisimus.mrs.MapRatingSystem
 author: dementisimus
 version: 1.2.0
 website: dementisimus.dev
-softdepend: [ CoreAPI, ProtocolLib ]
+softdepend: [ CoreAPI, ProtocolLib, CoreAPIDependencies ]
 api-version: 1.17
 
 commands:

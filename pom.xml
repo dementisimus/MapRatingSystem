@@ -39,7 +39,7 @@
             <groupId>dev.dementisimus.capi</groupId>
             <artifactId>CoreAPI</artifactId>
             <version>latest</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
