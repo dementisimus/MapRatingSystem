@@ -1,7 +1,7 @@
 name: MapRatingSystem
 main: dev.dementisimus.mrs.MapRatingSystem
 author: dementisimus
-version: 1.2.0
+version: ${project.version}
 website: dementisimus.dev
 softdepend: [ CoreAPI, ProtocolLib, CoreAPIDependencies ]
 api-version: 1.17
