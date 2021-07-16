@@ -10,6 +10,7 @@ import dev.dementisimus.capi.core.translations.Translation;
 import dev.dementisimus.mrs.api.MapRating;
 import dev.dementisimus.mrs.api.RatingType;
 import dev.dementisimus.mrs.commands.COMMAND_maprating;
+import dev.dementisimus.mrs.listener.SetupDoneListener;
 import dev.dementisimus.mrs.listeners.InventoryClickListener;
 import dev.dementisimus.mrs.listeners.PlayerInteractListener;
 import dev.dementisimus.mrs.listeners.PlayerLanguageListener;
@@ -51,23 +52,14 @@ public class MapRatingSystem extends JavaPlugin {
     private void init() {
         this.bukkitCoreAPI = new BukkitCoreAPI(this);
         this.coreAPI = this.bukkitCoreAPI.getCoreAPI();
-        BukkitHelper.registerEvents(this, new Listener[]{new SetUpStateChangeListener(this), new SetUpStatePrintInstructionsListener(this)});
+        BukkitHelper.registerEvents(this, new Listener[]{new SetupDoneListener(this), new SetUpStateChangeListener(this), new SetUpStatePrintInstructionsListener(this)});
         this.coreAPI.prepareInit(new String[]{DefaultSetUpState.LANGUAGE.name(), AdditionalSetUpState.USE_STANDALONE_VERSION.name(), DefaultSetUpState.STORAGE_TYPE.name(), DefaultSetUpState.MONGODB_CONNECTION_STRING.name(), DefaultSetUpState.MONGODB_DATABASE.name(), DefaultSetUpState.MARIADB_HOST.name(), DefaultSetUpState.MARIADB_PORT.name(), DefaultSetUpState.MARIADB_USER.name(), DefaultSetUpState.MARIADB_PASSWORD.name()}, new ResourceBundle[]{getBundle(this.coreAPI.getBaseName(), ENGLISH), getBundle(this.coreAPI.getBaseName(), GERMAN)}, capi -> capi.enableDatabaseUsage(new String[]{MAPRATINGS.value}, new String[]{RATINGROW.value}));
         this.coreAPI.init(initialized -> {
             this.createMapRatingAPIObject();
-            MapRatingInitializationQueue.executeCallbackInQueue(mapRating -> {
-                if(mapRating != null) {
-                    this.mapRating = mapRating;
-                    this.bukkitCoreAPI.addListenersToRegisterOnSetUpDone(new Listener[]{new InventoryClickListener(this), new PlayerLanguageListener(this), new PlayerInteractListener(this)});
-                    this.bukkitCoreAPI.addCommandToRegisterOnSetUpDone("maprating", new COMMAND_maprating(this));
-                    this.bukkitCoreAPI.addCommandToRegisterOnSetUpDone("mr", new COMMAND_maprating(this));
-                    this.bukkitCoreAPI.registerCommandsAndListeners();
-                }
-            });
         });
     }
 
-    private void createMapRatingAPIObject() {
+    public void createMapRatingAPIObject() {
         new Config(this.getCoreAPI().getConfigFile()).read(jsonDocument -> {
             if(jsonDocument != null) {
                 boolean useStandaloneVersion = jsonDocument.getBoolean(AdditionalSetUpState.USE_STANDALONE_VERSION.name());
@@ -93,6 +85,15 @@ public class MapRatingSystem extends JavaPlugin {
                         Bukkit.getPluginManager().disablePlugin(this);
                     }
                 }
+                MapRatingInitializationQueue.executeCallbackInQueue(mapRating -> {
+                    if(mapRating != null) {
+                        this.mapRating = mapRating;
+                        this.bukkitCoreAPI.addListenersToRegisterOnSetUpDone(new Listener[]{new InventoryClickListener(this), new PlayerLanguageListener(this), new PlayerInteractListener(this)});
+                        this.bukkitCoreAPI.addCommandToRegisterOnSetUpDone("maprating", new COMMAND_maprating(this));
+                        this.bukkitCoreAPI.addCommandToRegisterOnSetUpDone("mr", new COMMAND_maprating(this));
+                        this.bukkitCoreAPI.registerCommandsAndListeners();
+                    }
+                });
             }
         });
     }
