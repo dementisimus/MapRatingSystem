@@ -1,6 +1,7 @@
 package dev.dementisimus.mrs.listeners;
 
-import dev.dementisimus.capi.core.core.CoreAPI;
+import com.google.inject.Inject;
+import dev.dementisimus.capi.core.annotations.bukkit.BukkitListener;
 import dev.dementisimus.capi.core.creators.InventoryCreator;
 import dev.dementisimus.capi.core.creators.ItemCreator;
 import dev.dementisimus.capi.core.databases.DataManagement;
@@ -32,36 +33,30 @@ import java.util.Objects;
  * @author dementisimus
  * @since 22.06.2020:22:27
  */
+@BukkitListener(additionalModulesToInject = {MapRatingSystem.class})
 public class PlayerInteractListener implements Listener {
 
-    private final MapRatingSystem mapRatingSystem;
-    private final CoreAPI coreAPI;
-    private final MapRating mapRating;
-
-    public PlayerInteractListener(MapRatingSystem mapRatingSystem) {
-        this.mapRatingSystem = mapRatingSystem;
-        this.coreAPI = mapRatingSystem.getCoreAPI();
-        this.mapRating = mapRatingSystem.getMapRating();
-    }
+    @Inject private MapRatingSystem mapRatingSystem;
 
     @EventHandler
     public void on(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        DataManagement dataManagement = this.coreAPI.getDataManagement();
+        DataManagement dataManagement = this.mapRatingSystem.getCoreAPI().getDataManagement();
+        MapRating mapRating = this.mapRatingSystem.getMapRating();
         String uuid = player.getUniqueId().toString();
         Action action = event.getAction();
         if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
             if(event.getItem() != null) {
                 String title = event.getItem().getItemMeta().getDisplayName();
                 if(title != null) {
-                    if(new Translation(Translations.MAPRATING_ITEM_RATEMAP.id).matches(title)) {
+                    if(new Translation(Translations.MAPRATING_ITEM_RATEMAP).matches(title)) {
                         event.setCancelled(true);
-                        new InventoryCreator(9, new BukkitTranslation(Translations.MAPRATING_INVENTORY_TITLE.id).get(player, "$map$", this.mapRating.getMapName()), inventoryCreator -> {
-                            dataManagement.setRequirements(TablesOrCollections.MAPRATINGS.value, Key.MAP.value, this.mapRating.getMapName());
+                        new InventoryCreator(9, new BukkitTranslation(Translations.MAPRATING_INVENTORY_TITLE).get(player, "$map$", mapRating.getMapName()), inventoryCreator -> {
+                            dataManagement.setRequirements(TablesOrCollections.MAPRATINGS.value, Key.MAP.value, mapRating.getMapName());
                             dataManagement.get(new String[]{Key.PLAYER_VOTES.value}, result -> {
-                                Document votesByMapRatings = this.mapRating.getRatingData(result);
+                                Document votesByMapRatings = mapRating.getRatingData(result);
                                 int avaSlot = 0;
-                                for(RatingType ratingType : this.mapRating.getRatingTypes()) {
+                                for(RatingType ratingType : mapRating.getRatingTypes()) {
                                     Enchantment ench = null;
                                     if(votesByMapRatings != null && !votesByMapRatings.isEmpty()) {
                                         if(votesByMapRatings.get(ratingType.toString()) != null) {
@@ -69,7 +64,7 @@ public class PlayerInteractListener implements Listener {
                                             if(votes.contains(uuid)) ench = Enchantment.DAMAGE_ALL;
                                         }
                                     }
-                                    int sl = this.mapRating.getRatingTypeSlot(ratingType);
+                                    int sl = mapRating.getRatingTypeSlot(ratingType);
                                     int slot = ((sl == -1) ? avaSlot : sl);
                                     inventoryCreator.setItem(slot, new ItemCreator(Objects.requireNonNull(DefaultRatingData.getMaterial(ratingType))).setDisplayName(DefaultRatingData.getDisplayName(ratingType, player)).addEnchantment(ench, 1).addFlag(ItemFlag.HIDE_ENCHANTS).apply());
                                     avaSlot++;

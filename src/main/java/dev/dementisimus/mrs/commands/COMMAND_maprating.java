@@ -1,5 +1,7 @@
 package dev.dementisimus.mrs.commands;
 
+import com.google.inject.Inject;
+import dev.dementisimus.capi.core.annotations.bukkit.BukkitCommand;
 import dev.dementisimus.capi.core.databases.DataManagement;
 import dev.dementisimus.capi.core.translations.bukkit.BukkitTranslation;
 import dev.dementisimus.mrs.MapRatingSystem;
@@ -24,15 +26,12 @@ import java.util.ArrayList;
  * @author dementisimus
  * @since 29.06.2020:19:39
  */
+@BukkitCommand(name = "maprating", nameAliases = {"mr"}, additionalModulesToInject = {MapRatingSystem.class, MapRating.class})
 public class COMMAND_maprating implements CommandExecutor {
 
-    private final MapRatingSystem mapRatingSystem;
-    private final MapRating mapRating;
+    @Inject MapRatingSystem mapRatingSystem;
 
-    public COMMAND_maprating(MapRatingSystem mapRatingSystem) {
-        this.mapRatingSystem = mapRatingSystem;
-        this.mapRating = mapRatingSystem.getMapRating();
-    }
+    @Inject MapRating mapRating;
 
     @Override
     public boolean onCommand(@NotNull CommandSender cs, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
@@ -51,8 +50,8 @@ public class COMMAND_maprating implements CommandExecutor {
                                 this.mapRating.setPreconditionsForRatingDisplaying(player);
                                 StringBuilder resu = new StringBuilder(Prefixes.MAPRATINGSYSTEM + "\n");
                                 resu.append("§7§l§m--------------------").append("\n");
-                                resu.append("§e").append(new BukkitTranslation(Translations.MAP.id).get(player)).append("§7: §6").append(map).append("\n");
-                                resu.append("§e").append(new BukkitTranslation(Translations.RATING.id).get(player)).append("§7: ").append("\n");
+                                resu.append("§e").append(new BukkitTranslation(Translations.MAP).get(player)).append("§7: §6").append(map).append("\n");
+                                resu.append("§e").append(new BukkitTranslation(Translations.RATING).get(player)).append("§7: ").append("\n");
                                 if(args.length == 1) {
                                     for(RatingType ratingType : this.mapRating.getRatingTypes()) {
                                         resu.append(this.appendToStringBuilder(player, ratingType, votesByMapRatings));
@@ -98,7 +97,7 @@ public class COMMAND_maprating implements CommandExecutor {
         String toAppendTo = "";
         ArrayList<String> votes = votesByMapRatings.get(ratingType.name(), ArrayList.class);
         if(votes != null) {
-            String votesTranslation = ((votes.size() == 1) ? new BukkitTranslation(Translations.SG_VOTES.id).get(player) : new BukkitTranslation(Translations.VOTES.id).get(player));
+            String votesTranslation = ((votes.size() == 1) ? new BukkitTranslation(Translations.SG_VOTES).get(player) : new BukkitTranslation(Translations.VOTES).get(player));
             if(!votes.isEmpty()) {
                 toAppendTo = "§7|   " + this.mapRating.getRatingDisplayTagByRatingEnum(ratingType) + " §7§l:§e " + votes.size() + " " + votesTranslation + "\n";
             }else {
@@ -109,14 +108,14 @@ public class COMMAND_maprating implements CommandExecutor {
     }
 
     private void sendHelpMessage(Player player) {
-        player.sendMessage(new BukkitTranslation(Translations.COMMAND_MAPRATING_HELP.id).get(player, "$prefix$", Prefixes.MAPRATINGSYSTEM));
+        player.sendMessage(new BukkitTranslation(Translations.COMMAND_MAPRATING_HELP).get(player, "$prefix$", Prefixes.MAPRATINGSYSTEM));
     }
 
     private void sendRatingTypeNotFoundError(Player player, String ratingType) {
-        player.sendMessage(new BukkitTranslation(Translations.COMMAND_MAPRATING_RATINGTYPE_NOT_FOUND.id).get(player, new String[]{"$prefix$", "$ratingType$"}, new String[]{Prefixes.MAPRATINGSYSTEM, ratingType}));
+        player.sendMessage(new BukkitTranslation(Translations.COMMAND_MAPRATING_RATINGTYPE_NOT_FOUND).get(player, new String[]{"$prefix$", "$ratingType$"}, new String[]{Prefixes.MAPRATINGSYSTEM, ratingType}));
     }
 
     private void sendMapNullMessage(Player player, String map) {
-        player.sendMessage(new BukkitTranslation(Translations.COMMAND_MAPRATING_MAP_NULL.id).get(player, new String[]{"$prefix$", "$map$"}, new String[]{Prefixes.MAPRATINGSYSTEM, map}));
+        player.sendMessage(new BukkitTranslation(Translations.COMMAND_MAPRATING_MAP_NULL).get(player, new String[]{"$prefix$", "$map$"}, new String[]{Prefixes.MAPRATINGSYSTEM, map}));
     }
 }

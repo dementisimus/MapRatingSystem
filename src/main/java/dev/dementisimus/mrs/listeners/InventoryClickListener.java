@@ -1,5 +1,7 @@
 package dev.dementisimus.mrs.listeners;
 
+import com.google.inject.Inject;
+import dev.dementisimus.capi.core.annotations.bukkit.BukkitListener;
 import dev.dementisimus.capi.core.databases.DataManagement;
 import dev.dementisimus.capi.core.translations.Translation;
 import dev.dementisimus.mrs.MapRatingSystem;
@@ -27,15 +29,12 @@ import java.util.Objects;
  * @author dementisimus
  * @since 23.06.2020:20:30
  */
+@BukkitListener(additionalModulesToInject = {MapRatingSystem.class, MapRating.class})
 public class InventoryClickListener implements Listener {
 
-    private final MapRatingSystem mapRatingSystem;
-    private final MapRating mapRating;
+    @Inject private MapRatingSystem mapRatingSystem;
 
-    public InventoryClickListener(MapRatingSystem mapRatingSystem) {
-        this.mapRatingSystem = mapRatingSystem;
-        this.mapRating = mapRatingSystem.getMapRating();
-    }
+    @Inject private MapRating mapRating;
 
     @EventHandler
     public void on(InventoryClickEvent event) {
@@ -46,7 +45,7 @@ public class InventoryClickListener implements Listener {
         if(event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null) {
             String title = event.getView().getTitle();
             String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
-            if(new Translation(Translations.MAPRATING_INVENTORY_TITLE.id).matches(title, "$map$", this.mapRating.getMapName())) {
+            if(new Translation(Translations.MAPRATING_INVENTORY_TITLE).matches(title, "$map$", this.mapRating.getMapName())) {
                 event.setCancelled(true);
                 RatingType currentRatingType = null;
                 for(RatingType ratingType : this.mapRating.getRatingTypes()) {

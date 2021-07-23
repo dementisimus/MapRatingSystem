@@ -38,7 +38,7 @@ abstract public class AbstractMapRating {
         this.rateMapSlot = rateMapSlot;
         this.rateMapMaterial = rateMapMaterial;
         boolean ex = (slots.length == ratingTypes.length);
-        if(!ex) System.out.println(new Translation(Translations.MAPRATING_INVENTORY_SLOTS_NOT_SET_COMPLETELY.id).get(true));
+        if(!ex) System.out.println(new Translation(Translations.MAPRATING_INVENTORY_SLOTS_NOT_SET_COMPLETELY).get(true));
         for(int i = 0; i < ratingTypes.length; i++) {
             int slot = -1;
             if(ex) {
@@ -81,22 +81,22 @@ abstract public class AbstractMapRating {
 
     public String getRatingDisplayTagByRatingEnum(RatingType ratingType) {
         if(ratingType != null) {
-            if(ratingType.equals(RatingType.TERRIBLE)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE.id).get(this.locale, false);
-            if(ratingType.equals(RatingType.BAD)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD.id).get(this.locale, false);
-            if(ratingType.equals(RatingType.OKAY)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY.id).get(this.locale, false);
-            if(ratingType.equals(RatingType.GOOD)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD.id).get(this.locale, false);
-            if(ratingType.equals(RatingType.AMAZING)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING.id).get(this.locale, false);
+            if(ratingType.equals(RatingType.TERRIBLE)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE).get(this.locale, false);
+            if(ratingType.equals(RatingType.BAD)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD).get(this.locale, false);
+            if(ratingType.equals(RatingType.OKAY)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY).get(this.locale, false);
+            if(ratingType.equals(RatingType.GOOD)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD).get(this.locale, false);
+            if(ratingType.equals(RatingType.AMAZING)) return new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING).get(this.locale, false);
         }
         return null;
     }
 
     public RatingType getRatingDisplayTagByRatingString(String ratingType) {
         if(ratingType != null) {
-            if((new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE.id).matches(ratingType))) return RatingType.TERRIBLE;
-            if((new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD.id).matches(ratingType))) return RatingType.BAD;
-            if((new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY.id).matches(ratingType))) return RatingType.OKAY;
-            if((new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD.id).matches(ratingType))) return RatingType.GOOD;
-            if((new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING.id).matches(ratingType))) return RatingType.AMAZING;
+            if(new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE).matches(ratingType)) return RatingType.TERRIBLE;
+            if(new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD).matches(ratingType)) return RatingType.BAD;
+            if(new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY).matches(ratingType)) return RatingType.OKAY;
+            if(new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD).matches(ratingType)) return RatingType.GOOD;
+            if(new Translation(Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING).matches(ratingType)) return RatingType.AMAZING;
         }
         return null;
     }

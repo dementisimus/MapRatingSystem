@@ -2,9 +2,11 @@ package dev.dementisimus.mrs.maprating;
 
 import dev.dementisimus.capi.core.translations.bukkit.BukkitTranslation;
 import dev.dementisimus.mrs.api.RatingType;
-import dev.dementisimus.mrs.translation.Translations;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+
+import static dev.dementisimus.mrs.translation.Translations.*;
+
 /**
  * Copyright (c) by dementisimus
  *
@@ -16,14 +18,14 @@ import org.bukkit.entity.Player;
 public class DefaultRatingData {
 
     public static String getDisplayName(RatingType ratingType, Player player) {
-        Translations translations = switch(ratingType) {
-            case TERRIBLE -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE;
-            case BAD -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_BAD;
-            case OKAY -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_OKAY;
-            case GOOD -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_GOOD;
-            case AMAZING -> Translations.MAPRATING_INVENTORY_ITEM_TYPE_AMAZING;
+        String translation = switch(ratingType) {
+            case TERRIBLE -> MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE;
+            case BAD -> MAPRATING_INVENTORY_ITEM_TYPE_BAD;
+            case OKAY -> MAPRATING_INVENTORY_ITEM_TYPE_OKAY;
+            case GOOD -> MAPRATING_INVENTORY_ITEM_TYPE_GOOD;
+            case AMAZING -> MAPRATING_INVENTORY_ITEM_TYPE_AMAZING;
         };
-        return new BukkitTranslation(translations.id).get(player);
+        return new BukkitTranslation(translation).get(player);
     }
 
     public static Material getMaterial(RatingType ratingType) {
@@ -36,8 +38,8 @@ public class DefaultRatingData {
         };
     }
 
-    public static RatingType matchAndReturn(Translations translations) {
-        return switch(translations) {
+    public static RatingType matchAndReturn(String translation) {
+        return switch(translation) {
             case MAPRATING_INVENTORY_ITEM_TYPE_TERRIBLE -> RatingType.TERRIBLE;
             case MAPRATING_INVENTORY_ITEM_TYPE_BAD -> RatingType.BAD;
             case MAPRATING_INVENTORY_ITEM_TYPE_OKAY -> RatingType.OKAY;

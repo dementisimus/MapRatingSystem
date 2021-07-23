@@ -1,12 +1,12 @@
 package dev.dementisimus.mrs.listeners;
 
+import com.google.inject.Inject;
+import dev.dementisimus.capi.core.annotations.bukkit.BukkitListener;
 import dev.dementisimus.capi.core.creators.ItemCreator;
 import dev.dementisimus.capi.core.events.bukkit.BukkitPlayerLanguageEvent;
 import dev.dementisimus.capi.core.translations.bukkit.BukkitTranslation;
-import dev.dementisimus.mrs.MapRatingSystem;
 import dev.dementisimus.mrs.api.MapRating;
 import dev.dementisimus.mrs.translation.Translations;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,23 +18,14 @@ import org.bukkit.event.Listener;
  * @author dementisimus
  * @since 27.07.2020:16:47
  */
+@BukkitListener(additionalModulesToInject = {MapRating.class})
 public class PlayerLanguageListener implements Listener {
 
-    private final MapRatingSystem mapRatingSystem;
-    private final MapRating mapRating;
-    private final int slot;
-    private final Material rateMapMaterial;
-
-    public PlayerLanguageListener(MapRatingSystem mapRatingSystem) {
-        this.mapRatingSystem = mapRatingSystem;
-        this.mapRating = mapRatingSystem.getMapRating();
-        this.slot = this.mapRating.getRateMapSlot();
-        this.rateMapMaterial = this.mapRating.getRateMapMaterial();
-    }
+    @Inject MapRating mapRating;
 
     @EventHandler
     public void on(BukkitPlayerLanguageEvent event) {
         Player player = event.getPlayer();
-        player.getInventory().setItem(this.slot, new ItemCreator(this.rateMapMaterial).setDisplayName(new BukkitTranslation(Translations.MAPRATING_ITEM_RATEMAP.id).get(player)).apply());
+        player.getInventory().setItem(this.mapRating.getRateMapSlot(), new ItemCreator(this.mapRating.getRateMapMaterial()).setDisplayName(new BukkitTranslation(Translations.MAPRATING_ITEM_RATEMAP).get(player)).apply());
     }
 }
