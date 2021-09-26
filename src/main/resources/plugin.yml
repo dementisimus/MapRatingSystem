@@ -1,9 +1,9 @@
 name: MapRatingSystem
-main: dev.dementisimus.mrs.MapRatingSystem
+main: dev.dementisimus.mrs.MapRatingSystemPlugin
 author: dementisimus
 version: ${project.version}
 website: dementisimus.dev
-softdepend: [ CoreAPI, ProtocolLib, CoreAPIDependencies ]
+softdepend: [ CoreAPI, ProtocolLib, CoreAPI-Dependencies ]
 api-version: 1.17
 
 commands:

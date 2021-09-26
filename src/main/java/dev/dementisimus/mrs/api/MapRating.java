@@ -1,32 +1,57 @@
 package dev.dementisimus.mrs.api;
 
-import dev.dementisimus.capi.core.annotations.UserRequirement;
-import dev.dementisimus.mrs.maprating.AbstractMapRating;
-import dev.dementisimus.mrs.maprating.MapRatingInitializationQueue;
+import dev.dementisimus.capi.core.callback.Callback;
+import dev.dementisimus.mrs.rating.CustomRatedMap;
 import org.bukkit.Material;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.entity.Player;
 /**
- * Copyright (c) by dementisimus
+ * Copyright (c) by dementisimus,
+ * licensed under Attribution-NonCommercial-NoDerivatives 4.0 International
  *
  * Class MapRating @ MapRatingSystem
  *
  * @author dementisimus
- * @since 23.06.2020:21:07
+ * @since 25.09.2021:18:20
  */
-public class MapRating extends AbstractMapRating {
+public interface MapRating {
 
     /**
-     * this function initializes the API! This is required to use this API!
+     * Performs a player map vote
      *
-     * @param mapName         The map which will be rated
-     * @param ratingTypes     {@link RatingType} RatingTypes which will be available for rating
-     * @param slots           Slots on which the items will be placed on
-     * @param rateMapSlot     Slot on which the rate-map-item will be placed on
-     * @param rateMapMaterial A Material which will be used for the rate-map-item
+     * @param player          the issuer
+     * @param mapName         the map which should be rated for
+     * @param ratingType      the {@link RatingType} which will be used for rating the given map
+     * @param booleanCallback success-state
      */
-    @UserRequirement
-    public MapRating(@NotNull String mapName, @NotNull RatingType[] ratingTypes, @NotNull Integer[] slots, int rateMapSlot, @NotNull Material rateMapMaterial) {
-        super(mapName, ratingTypes, slots, rateMapSlot, rateMapMaterial);
-        MapRatingInitializationQueue.setMapRating(this);
-    }
+    void rate(Player player, String mapName, RatingType ratingType, Callback<Boolean> booleanCallback);
+
+    /**
+     * Gets the rating for the given map name
+     *
+     * @param mapName          map name from which the rating should be retrieved from
+     * @param ratedMapCallback {@link CustomRatedMap}
+     */
+    void getRating(String mapName, Callback<CustomRatedMap> ratedMapCallback);
+
+    /**
+     * @param material the {@link Material} used by {@link #setRateMapItem(Player)}
+     */
+    void setMapRatingItemMaterial(Material material);
+
+    /**
+     * @param slot the slot on which {@link #setRateMapItem(Player)} will place the rate map item
+     */
+    void setMapRatingItemSlot(int slot);
+
+    /**
+     * @param player the {@link Player} to which the rate map item will be given to
+     */
+    void setRateMapItem(Player player);
+
+    /**
+     * if used, no rate map item will be set on player join,
+     * instead you may give the rate map item to any player at any time
+     * by using {@link #setRateMapItem(Player)}
+     */
+    void doNotSetRateMapItemOnPlayerJoin();
 }
