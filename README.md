@@ -1,94 +1,68 @@
-![](https://repo.dementisimus.dev/dev/dementisimus/mrs/MapRatingSystem/images/mrs_logo.png)
+# MapRatingSystem [![main build status](https://github.com/dementisimus/MapRatingSystem/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dementisimus/MapRatingSystem) [![develop build status](https://github.com/dementisimus/MapRatingSystem/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/dementisimus/MapRatingSystem/tree/develop)
+## _Because feedback is important._
 
-### *an easy && lightweight Plugin / and or API // for letting your players rate your maps!*
-------------
+MapRatingSystem is a **lightweight**, **inventory based** **feedback** (**rating**) **system** for **maps**.
 
-## some impressions first
+## **Features**
 
-![](https://repo.dementisimus.dev/dev/dementisimus/mrs/MapRatingSystem/images/mrs_menu.png)
+- **allow** your **users** to **rate** your **maps**
+- **view** user **feedback** on **maps** in an inventory (`/maprating`)
+- **Multilingual** console messages (languages currently available: **English**, **German**)
+- Each **player may choose** a suitable language via `/language`, otherwise the language will be **picked automatically**
+- **No need** to **install anything** by yourself - **MapRatingSystem** does **everything** for you (except for **MapRatingSystem itself** ¬‿¬ )!
+- **Powerful API** for **Java Developers**
+- **Continuous development** with many **[planned features]**
+- **24/7-Support** at our **[Discord-Server]**
 
-![](https://repo.dementisimus.dev/dev/dementisimus/mrs/MapRatingSystem/images/mrs_menu_de.png)
+## **Requirements**
 
-![](https://repo.dementisimus.dev/dev/dementisimus/mrs/MapRatingSystem/images/mrs_ratings.png)
+1. **Java 16**
+2. **Spigot 1.17.1**
+3. **Access** to the **server console** (for the **automated setup**)
+4. **Access** to a **database** **(MongoDB, MariaDB (MySQL), SQLite)**
 
-![](https://repo.dementisimus.dev/dev/dementisimus/mrs/MapRatingSystem/images/mrs_ratings_selected.png)
+## **Installation**
 
-![](https://repo.dementisimus.dev/dev/dementisimus/mrs/MapRatingSystem/images/server.png)
+1. Make sure your **server** is **stopped**, or will be **restarted**. Do **not reload** your server!
+2. **Download** the **latest version** of _**CoreAPI**_ & _**MapRatingSystem**_ from **[GitHub Releases]**
+3. **Move** the **downloaded jar-file** to the **`plugins`-folder**
+4. **Start** (or **restart**) your **server**
+5. **Go through** the **installation process** (**setu**p) in your **console** by **answering** the **prompted questions** with **commands** (**commands** represent the **data**, may be **infinitely long**)
 
-## Features
-
-- **easy** installation && setup via **console** on server startup
-- possibility to **choose** between **MongoDB**, **MariaDB** or **SQLite**
-- **automatic** dependency **installer** - **no need** to download dependencies **by yourself**!
-- async
-- lightweight
-- **caches** used data for **maximum performance**
-- **multilingual** - by selecting the **correct language** for a player **automatically**
-- high scalability
-- a server (dementisimus.dev) where you can **test it out**
-- **docs** on [docs.dementisimus.dev](https://docs.dementisimus.dev/MapRatingSystem/ "docs.dementisimus.dev")
-- **Support** @ [Discord](https://discord.gg/sTRg8A7 "Discord") && [SpigotMC](https://www.spigotmc.org/conversations/add?to=dementisimus "SpigotMC") (Discord **preferred, so your question might help other people as well!**)
-- **issues** can be **reported** [here](https://discord.gg/sTRg8A7 "here")
-- [have a look at upcoming features on GitHub!](https://github.com/dementisimus/MapRatingSystem/projects "have a look at upcoming features on GitHub!")
-
-## API-Usage
-
-```xml
-<!-- dementisimus.dev-Repository -->
-<repository>
-     <id>dementisimus.dev</id>
-     <url>https://repo.dementisimus.dev</url>
-</repository>
-
-<!-- MapRatingSystem-1.2.0 by dementisimus -->
-<dependency>
-     <groupId>dev.dementisimus.mrs</groupId>
-     <artifactId>MapRatingSystem</artifactId>
-     <version>1.2.0</version>
-     <scope>provided</scope>
-</dependency>
-```
-
-```yaml
-#this you need to specify in your plugin.yml!
-loadbefore: [MapRatingSystem]
-```
+## **Development**
 
 ```java
-// (optional!)
-// • initialize a listener for the RateMapEvent (https://docs.dementisimus.dev/MapRatingSystem/dev/dementisimus/mrs/api/event/RateMapEvent.html)
-@EventHandler
-public void onRateMap(RateMapEvent rateMapEvent) {
-       //your code here
-}
+<coming soon>
 ```
 
-```java
-[example]
-// • initialize (this must be done in your onEnable-Method!) your Map by creating an instance of dev.dementisimus.mrs.api.MapRating
-// • add RatingTypes your players'll be able to vote for
-// • initialize the slots for your chosen RatingTypes
-// • set the slot on which the rate-map-item will be placed on
-// • set the material which will be used for the rate-map-item
-new MapRating("Amu", new RatingType[]{RatingType.TERRIBLE, RatingType.BAD, RatingType.OKAY, RatingType.GOOD, RatingType.AMAZING}, new Integer[]{0, 2, 4, 6, 8}, 4, Material.MAP /*or any other Item//RatingType, etc*/);
-```
+## **Images**
 
-## » more information: ([click](https://docs.dementisimus.dev/MapRatingSystem/dev/dementisimus/mrs/api/MapRating.html "click"))
+<p align="center">
+  <img src="https://dementisimus.dev/img/MapRatingSystem/rate_map.jpg" />
+   <br>
+  <img src="https://dementisimus.dev/img/MapRatingSystem/map_ratings.jpg" />
+</p>
 
-## ToS
-- the plugin **may not** be decompiled, modified, sold, be published as your own.
-- the plugin **may** be used in public/private plugins; credits would be nice!
+## **Special thanks to**
 
-# !!! read this carefully before downloading !!!
-> **- in order to use this plugin properly, you need to use Java >16 & [Paper by PaperMC](https://papermc.io/downloads "Paper by PaperMC") >1.17! (Paper is an extension/fork of Spigot by SpigotMC, which implements many useful features!)**
+- [@TearingBooch482] for **helping** me **stress-testing** every **new version** of my **plugins**
 
-## installation
-- **[If your server is currently running, make sure you stop him, do NOT reload your server!]**
-- **put this plugin** into the **plugin folder** of **your** **server**.
-- you can now **start** your **server**!
+## **License**
 
-## install an update
-- **download** the **new version** and put it in your **plugin-folder**. **Follow** the **instructions** on the update post, **if given**.
-- **restart** or **start** [do **NOT** reload] your **server**.
+» [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License]
 
-# » Have fun!
+## find us on
+
+[<img src="https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg" alt="" height="55" />](https://discord.gg/sTRg8A7)
+
+# **Happy map rating!**
+
+[planned features]: <https://github.com/dementisimus/MapRatingSystem/projects/2>
+[Discord-Server]: <https://discord.gg/sTRg8A7>
+
+[GitHub Releases]: <https://github.com/dementisimus/MapRatingSystem/releases>
+
+[Advanced-Slime-World-Manager]: <https://github.com/Paul19988/Advanced-Slime-World-Manager>
+[@TearingBooch482]: <https://github.com/TearingBooch482>
+
+[Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License]: <https://creativecommons.org/licenses/by-nc-nd/4.0/>

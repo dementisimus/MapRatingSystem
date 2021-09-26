@@ -6,22 +6,23 @@
 
     <groupId>dev.dementisimus.mrs</groupId>
     <artifactId>MapRatingSystem</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <paper-api.version>1.17.1-R0.1-SNAPSHOT</paper-api.version>
-        <annotations.version>19.0.0</annotations.version>
-        <bson.version>4.1.1</bson.version>
+        <spigot-api.version>1.17.1-R0.1-SNAPSHOT</spigot-api.version>
+        <annotations.version>22.0.0</annotations.version>
+        <bson.version>4.3.2</bson.version>
         <guice.version>5.0.1</guice.version>
+        <lombok.version>1.18.20</lombok.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>${paper-api.version}</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -40,7 +41,7 @@
             <groupId>dev.dementisimus.capi</groupId>
             <artifactId>CoreAPI</artifactId>
             <version>latest</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
@@ -48,12 +49,26 @@
             <version>${guice.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
         <repository>
-            <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>dementisimus-dev-release</id>
+            <url>https://repo.dementisimus.dev/release/</url>
+        </repository>
+        <repository>
+            <id>dementisimus-dev-development</id>
+            <url>https://repo.dementisimus.dev/development/</url>
         </repository>
     </repositories>
 
@@ -62,18 +77,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.1</version>
                 <configuration>
                     <source>16</source>
-                    <excludePackageNames>
-                        dev.dementisimus.mrs:dev.dementisimus.mrs.cache:dev.dementisimus.mrs.chathelper:dev.dementisimus.mrs.commands:dev.dementisimus.mrs.core:dev.dementisimus.mrs.data:dev.dementisimus.mrs.dependencies:dev.dementisimus.mrs.file:dev.dementisimus.mrs.listeners:dev.dementisimus.mrs.maprating:dev.dementisimus.mrs.queue:dev.dementisimus.mrs.translation:dev.dementisimus.mrs.setup:dev.dementisimus.mrs.strings
-                    </excludePackageNames>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>3.2.4</version>
                 <configuration>
                 </configuration>
                 <executions>
@@ -88,10 +100,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>16</source>
                     <target>16</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
