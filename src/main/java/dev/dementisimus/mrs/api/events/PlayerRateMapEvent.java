@@ -41,6 +41,14 @@ public class PlayerRateMapEvent extends Event {
     @Setter
     private boolean cancelled;
 
+    @Getter
+    @Setter
+    private boolean newVote;
+
+    @Getter
+    @Setter
+    private boolean changedVote;
+
     public PlayerRateMapEvent(Player player, String ratedMap, RatingType ratingType, boolean success) {
         super(false);
         this.player = player;

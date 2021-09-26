@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.Document;
+import org.bukkit.entity.Player;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -71,6 +72,20 @@ public class CustomRatedMap implements RatedMap {
         }
 
         return uuids;
+    }
+
+    @Override
+    public RatingType getPlayerVote(Player player) {
+        RatingType ratingType = null;
+
+        for(RatingType type : RatingType.values()) {
+            if(this.getPlayerVotes(type) != null && this.getPlayerVotes(type).contains(player.getUniqueId())) {
+                ratingType = type;
+                break;
+            }
+        }
+
+        return ratingType;
     }
 
     protected void setVote(UUID uuid, RatingType ratingType) {

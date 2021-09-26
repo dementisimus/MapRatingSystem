@@ -1,7 +1,7 @@
 # MapRatingSystem [![main build status](https://github.com/dementisimus/MapRatingSystem/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dementisimus/MapRatingSystem) [![develop build status](https://github.com/dementisimus/MapRatingSystem/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/dementisimus/MapRatingSystem/tree/develop)
 ## _Because feedback is important._
 
-MapRatingSystem is a **lightweight**, **inventory based** **feedback** (**rating**) **system** for **maps**.
+MapRatingSystem is a **lightweight**, **inventory based** **feedback** (**rating**) **system** for **minecraft maps**.
 
 ## **Features**
 
@@ -32,7 +32,27 @@ MapRatingSystem is a **lightweight**, **inventory based** **feedback** (**rating
 ## **Development**
 
 ```java
-<coming soon>
+//Docs: https://docs.dementisimus.dev/development/MapRatingSystem/1.3.0/
+MapRating mapRating = new CustomMapRating();
+
+//optional
+mapRating.setMapRatingItemMaterial(Material.DIAMOND);
+mapRating.setMapRatingItemSlot(8);
+
+//gives the rate map item to a player
+mapRating.setRateMapItem(player);
+
+//disables the rate map item on player join
+mapRating.doNotSetRateMapItemOnPlayerJoin();
+```
+```java
+@EventHandler
+public void on(PlayerRateMapEvent event) {
+    //Docs at https://docs.dementisimus.dev/development/MapRatingSystem/1.3.0/dev/dementisimus/mrs/api/events/PlayerRateMapEvent.html
+        
+    //to disable the default messages & sounds of the event
+    event.setCancelled(true);
+}
 ```
 
 ## **Images**

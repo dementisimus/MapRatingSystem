@@ -50,10 +50,21 @@ public class ValidInventoryClickListener implements Listener {
                 String mapName = this.customMapRating.getWildcardMapName(player);
                 RatingType finalClickedRatingType = clickedRatingType;
 
-                this.customMapRating.rate(player, mapName, clickedRatingType, success -> {
-                    BukkitSynchronousExecutor.execute(this.mapRatingSystemPlugin, () -> {
-                        PlayerRateMapEvent playerRateMapEvent = new PlayerRateMapEvent(player, mapName, finalClickedRatingType, success);
-                        Bukkit.getPluginManager().callEvent(playerRateMapEvent);
+                this.customMapRating.getRating(mapName, customRatedMap -> {
+                    RatingType prevRatingType = customRatedMap.getPlayerVote(player);
+                    boolean isNewVote = prevRatingType == null;
+
+                    this.customMapRating.rate(player, mapName, finalClickedRatingType, success -> {
+                        BukkitSynchronousExecutor.execute(this.mapRatingSystemPlugin, () -> {
+                            PlayerRateMapEvent playerRateMapEvent = new PlayerRateMapEvent(player, mapName, finalClickedRatingType, success);
+
+                            playerRateMapEvent.setNewVote(isNewVote);
+                            if(prevRatingType != null) {
+                                playerRateMapEvent.setChangedVote(!prevRatingType.equals(finalClickedRatingType));
+                            }
+
+                            Bukkit.getPluginManager().callEvent(playerRateMapEvent);
+                        });
                     });
                 });
             }
