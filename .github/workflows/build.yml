@@ -33,8 +33,8 @@ jobs:
       - name: evaluate project info
         run: |
           echo "version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-          echo "jar=$(${env.name}-${env.version}.jar)" >> $GITHUB_ENV
-          echo "pom=$(${env.name}-${env.version}.pom)" >> $GITHUB_ENV
+          echo "jar=$(${{ env.name }}-${{ env.version }}.jar)" >> $GITHUB_ENV
+          echo "pom=$(${{ env.name }}-${{ env.version }}.pom)" >> $GITHUB_ENV
 
       - name: build
         run: mvn -U clean package javadoc:javadoc --file pom.xml
