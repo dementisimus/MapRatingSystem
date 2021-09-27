@@ -36,8 +36,8 @@ jobs:
 
       - name: set jar & pom env vars
         run: |
-          echo "jar=$(${{ env.name }}-${{ env.version }}.jar)" >> $GITHUB_ENV
-          echo "pom=$(${{ env.name }}-${{ env.version }}.pom)" >> $GITHUB_ENV
+          echo "jar=${{ env.name }}-${{ env.version }}.jar" >> $GITHUB_ENV
+          echo "pom=${{ env.name }}-${{ env.version }}.pom" >> $GITHUB_ENV
 
       - name: build
         run: mvn -U clean package javadoc:javadoc --file pom.xml
