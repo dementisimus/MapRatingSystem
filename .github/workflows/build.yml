@@ -4,7 +4,6 @@ on: [ push, workflow_dispatch ]
 env: 
   name: MapRatingSystem
   id: mrs
-  branch: ${GITHUB_REF##*/}
 
 jobs:
   build:  
@@ -49,7 +48,7 @@ jobs:
           cp -R ./target/site/apidocs/. ./javadocs
             
       - name: deploy release artifacts
-        if: (env.branch == 'main')
+        if: (${GITHUB_REF##*/} == 'main')
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
             local: ./artifacts
@@ -62,7 +61,7 @@ jobs:
             passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
 
       - name: deploy development artifacts
-        if: (env.branch == 'develop')
+        if: (${GITHUB_REF##*/} == 'develop')
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
           local: ./artifacts
@@ -75,7 +74,7 @@ jobs:
           passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
             
       - name: deploy release javadocs
-        if: (env.branch == 'main')
+        if: (${GITHUB_REF##*/} == 'main')
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
             local: ./javadocs
@@ -88,7 +87,7 @@ jobs:
             passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
 
       - name: deploy development javadocs
-        if: (env.branch == 'develop')
+        if: (${GITHUB_REF##*/} == 'develop')
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
           local: ./javadocs
