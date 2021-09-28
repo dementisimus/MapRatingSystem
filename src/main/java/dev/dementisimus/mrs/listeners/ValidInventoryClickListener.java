@@ -37,8 +37,6 @@ public class ValidInventoryClickListener implements Listener {
         String displayName = event.getCurrentItemDisplayName();
 
         if(new BukkitTranslation(MAP_RATING_ITEM_DISPLAY_NAME).matches(title)) {
-            event.setCancelled(true);
-
             RatingType clickedRatingType = null;
 
             for(RatingType ratingType : RatingType.values()) {
