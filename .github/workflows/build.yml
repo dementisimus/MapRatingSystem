@@ -4,10 +4,6 @@ on: [ push, workflow_dispatch ]
 env: 
   name: MapRatingSystem
   id: mrs
-  version: 1.3.0
-  jar: MapRatingSystem-1.3.0.jar
-  pom: MapRatingSystem-1.3.0.pom
-  stage: development
 
 jobs:
   build:  
@@ -33,7 +29,16 @@ jobs:
         with:
             path: ~/.m2/repository
             key: ${{ runner.os }}-maven-${{ secrets.CACHE_KEY }}
-          
+
+      - name: evaluate project info
+        run: |
+          echo "version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      - name: set jar & pom env vars
+        run: |
+          echo "jar=${{ env.name }}-${{ env.version }}.jar" >> $GITHUB_ENV
+          echo "pom=${{ env.name }}-${{ env.version }}.pom" >> $GITHUB_ENV
+
       - name: build
         run: mvn -U clean package javadoc:javadoc --file pom.xml
             
@@ -45,26 +50,54 @@ jobs:
           cp ./pom.xml ./artifacts/${{ env.pom }}
           cp -R ./target/site/apidocs/. ./javadocs
             
-      - name: deploy artifacts
+      - name: deploy release artifacts
+        if: endsWith(github.ref, '/main')
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
             local: ./artifacts
-            remote: /home/repo-deployment/repository/repositories/${{ env.stage }}/dev/dementisimus/${{ env.id }}/${{ env.name }}/${{ env.version }}/
+            remote: /home/repo-deployment/repository/repositories/release/dev/dementisimus/${{ env.id }}/${{ env.name }}/${{ env.version }}/
             concurrency: 5
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             privateKey: ${{ secrets.PRIVATE_KEY}}
             passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
+
+      - name: deploy development artifacts
+        if: endsWith(github.ref, '/develop')
+        uses: garygrossgarten/github-action-scp@v0.7.3
+        with:
+          local: ./artifacts
+          remote: /home/repo-deployment/repository/repositories/development/dev/dementisimus/${{ env.id }}/${{ env.name }}/${{ env.version }}/
+          concurrency: 5
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+          passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
             
-      - name: deploy javadocs
+      - name: deploy release javadocs
+        if: endsWith(github.ref, '/main')
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
             local: ./javadocs
-            remote: /var/www/dementisimus.dev/html/docs/${{ env.stage }}/${{ env.name }}/${{ env.version }}/
+            remote: /var/www/dementisimus.dev/html/docs/release/${{ env.name }}/${{ env.version }}/
             concurrency: 5
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             privateKey: ${{ secrets.PRIVATE_KEY}}
             passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
+
+      - name: deploy development javadocs
+        if: endsWith(github.ref, '/develop')
+        uses: garygrossgarten/github-action-scp@v0.7.3
+        with:
+          local: ./javadocs
+          remote: /var/www/dementisimus.dev/html/docs/development/${{ env.name }}/${{ env.version }}/
+          concurrency: 5
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+          passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
