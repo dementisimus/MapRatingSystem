@@ -17,7 +17,7 @@ MapRatingSystem is a **lightweight**, **inventory based** **feedback** (**rating
 ## **Requirements**
 
 1. **Java 16**
-2. **Spigot 1.17.1**
+2. **Spigot 1.17.1** **([PaperMC] recommended)**
 3. **Access** to the **server console** (for the **automated setup**)
 4. **Access** to a **database** **(MongoDB, MariaDB (MySQL), SQLite)**
 
@@ -79,6 +79,8 @@ public void on(PlayerRateMapEvent event) {
 
 [planned features]: <https://github.com/dementisimus/MapRatingSystem/projects/2>
 [Discord-Server]: <https://discord.gg/sTRg8A7>
+
+[PaperMC]: <https://papermc.io/downloads>
 
 [GitHub Releases]: <https://github.com/dementisimus/MapRatingSystem/releases>
 
