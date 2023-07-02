@@ -1,7 +1,7 @@
 # MapRatingSystem [![main build status](https://github.com/dementisimus/MapRatingSystem/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dementisimus/MapRatingSystem) [![develop build status](https://github.com/dementisimus/MapRatingSystem/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/dementisimus/MapRatingSystem/tree/develop)
 ## _Because feedback is important._
 
-discontinued due to personal reasons!
+# discontinued due to personal reasons!
 
 MapRatingSystem is a **lightweight**, **inventory based** **feedback** (**rating**) **system** for **minecraft maps**.
 
